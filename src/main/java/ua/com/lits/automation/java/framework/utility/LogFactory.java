@@ -15,36 +15,48 @@ import ch.qos.logback.core.util.StatusPrinter;
 public class LogFactory {
 	private static LoggerContext factory = (LoggerContext) LoggerFactory
 			.getILoggerFactory();
-	private static Logger logger;
 	
+	private static Logger logger;
+
 	static {
 		try {
-			init(FileReader.class.getResourceAsStream("/logback.xml"));			
-		}catch(IllegalArgumentException e) {
-			System.err.println("failed to load logging configuration from logback.xml");
+			init(FileReader.class.getResourceAsStream("/logback.xml"));
+		} catch (IllegalArgumentException e) {
+			System.err
+					.println("failed to load logging configuration from logback.xml");
 			e.printStackTrace(System.err);
-			throw new RuntimeException("no file logback in resurces foulder found", e);			
+			throw new RuntimeException(
+					"no file logback in resources folder found", e);
 		}
 	}
-	
-	public static void init (InputStream logParams){
+
+	public static void init(InputStream logParams) {
 		try {
 			JoranConfigurator configurator = new JoranConfigurator();
 			configurator.setContext(factory);
-			if(logParams != null){
+			if (logParams != null) {
 				factory.reset();
 				configurator.doConfigure(logParams);
 			}
-			} catch(JoranException je){
-				je.printStackTrace();
+		} catch (JoranException je) { // catch-22 situation here: can't log an
+										// error if the logger can't be
+										// created! Possibly the only valid use
+										// case for printStackTrace()...
+			je.printStackTrace();
 		}
 		StatusPrinter.printIfErrorsOccured(factory);
 		logger = getLogger(LogFactory.class);
 		logger.info("-------------------------Initializing logger-------------------------");
 		logger.info("Logging (re-)initalized");
-		logger.info("JVM timezone: {}", TimeZone.getDefault().getID());		
+		logger.info("JVM timezone: {}", TimeZone.getDefault().getID());
 	}
-	public static  Logger getLogger(@SuppressWarnings("rawtypes") Class clazz) {
+
+	/**
+	 * @param clazz
+	 * @return the associated Logger object
+	 */
+	public static Logger getLogger(
+			@SuppressWarnings("rawtypes") Class clazz) {
 		return LoggerFactory.getLogger(clazz);
 	}
 

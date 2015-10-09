@@ -29,8 +29,8 @@ public class SearchResultFilmPage extends Page {
 		return LinkOnTheDetailedInformationForFoundElement.isDisplayed();
 	}
 	
-	public InFormationAboutFilmsPage clicOnLinkDetailedInformationForFoundElement(){
+	public InformationAboutFilmsPage clicOnLinkDetailedInformationForFoundElement(){
 		LinkOnTheDetailedInformationForFoundElement.click();
-		return PageFactory.initElements(webDriver, InFormationAboutFilmsPage.class);
+		return PageFactory.initElements(webDriver, InformationAboutFilmsPage.class);
 	}
 }

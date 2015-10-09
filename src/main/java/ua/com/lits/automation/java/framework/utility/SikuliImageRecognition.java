@@ -13,6 +13,7 @@ import org.sikuli.api.robot.Mouse;
 import org.sikuli.api.robot.desktop.DesktopMouse;
 
 public class SikuliImageRecognition {
+
 	private ScreenRegion sRegion;
 
 	public SikuliImageRecognition() {
@@ -20,14 +21,13 @@ public class SikuliImageRecognition {
 	}
 
 	public void clickOnImage(String imageName) {
-		File buttomPathFile = new File("src\\test\\resources\\images\\" + imageName);
-		Target imageTarget = new ImageTarget(buttomPathFile);
+		File buttonPathFile = new File("src\\test\\resources\\images\\" + imageName);
+		Target imageTarget = new ImageTarget(buttonPathFile);
 		imageTarget.setMinScore(0.7);
 		ScreenRegion r = sRegion.wait(imageTarget, 7000);
 		Mouse mouse = new DesktopMouse();
 		mouse.click(r.getCenter());
 		Robot robot;
-
 		try {
 			robot = new Robot();
 			robot.mousePress(InputEvent.BUTTON1_MASK);
@@ -35,6 +35,5 @@ public class SikuliImageRecognition {
 		} catch (AWTException e) {
 			e.printStackTrace();
 		}
-
 	}
 }
